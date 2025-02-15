@@ -1,0 +1,42 @@
+name: Collect Instagram Data
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # Täglich um Mitternacht ausführen
+  push:
+    branches:
+      - main
+
+jobs:
+  collect-data:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install requests pandas
+
+    - name: Run data collection script
+      env:
+        ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+        USER_ID: ${{ secrets.USER_ID }}
+        API_URL: ${{ secrets.API_URL }}
+      run: |
+        python collect_data.py
+
+    - name: Commit and push results
+      run: |
+        git config --global user.name 'github-actions'
+        git config --global user.email 'github-actions@github.com'
+        git add instagram_data.csv posts_per_month.csv
+        git commit -m 'Update Instagram data'
+        git push

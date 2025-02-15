@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram Dashboard</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+    <h1>Instagram Dashboard</h1>
+    <div id="posts-per-month"></div>
+
+    <script>
+        fetch('posts_per_month.csv')
+            .then(response => response.text())
+            .then(data => {
+                const rows = data.split('\n').slice(1);
+                const x = [];
+                const y = [];
+                rows.forEach(row => {
+                    const cols = row.split(',');
+                    x.push(cols[0]);
+                    y.push(parseInt(cols[1]));
+                });
+
+                const trace = {
+                    x: x,
+                    y: y,
+                    type: 'scatter'
+                };
+
+                const layout = {
+                    title: 'Anzahl der Beiträge pro Monat'
+                };
+
+                Plotly.newPlot('posts-per-month', [trace], layout);
+            });
+    </script>
+</body>
+</html>
