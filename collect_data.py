@@ -48,15 +48,15 @@ def fetch_instagram_followers():
     followers_df = pd.DataFrame([{'timestamp': pd.Timestamp.now(), 'followers_count': followers_count}])
 
     # Speichern der Daten
-    posts_df.to_csv('instagram_data.csv', index=False)
+    posts_df.to_csv('followers_per_day.csv', index=False)
 
     # Follower-Daten anhängen, wenn die Datei bereits existiert
-    if os.path.exists('instagram_followers.csv'):
-        existing_followers_df = pd.read_csv('instagram_followers.csv')
+    if os.path.exists('followers_per_day.csv'):
+        existing_followers_df = pd.read_csv('followers_per_day.csv')
         existing_followers_df['timestamp'] = pd.to_datetime(existing_followers_df['timestamp'])
         followers_df = pd.concat([existing_followers_df, followers_df], ignore_index=True)
 
-    followers_df.to_csv('instagram_followers.csv', index=False)
+    followers_df.to_csv('followers_per_day.csv', index=False)
 
 if __name__ == "__main__":
     fetch_instagram_data()
