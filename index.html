@@ -7,11 +7,11 @@
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
 <body>
-    <h1>Instagram Dashboard</h1>
-    <div id="instagram-followers"></div>
+    <h1>Instagram Dashboard Grüne OV Rothenburg</h1>
+    <div id="followers_per_day"></div>
 
     <script>
-        fetch('instagram_followers.csv')
+        fetch('followers_per_day.csv')
             .then(response => response.text())
             .then(data => {
                 const rows = data.split('\n').slice(1);
@@ -30,10 +30,10 @@
                 };
 
                 const layout = {
-                    title: 'Anzahl der Follower pro Monat'
+                    title: 'Anzahl der Follower pro Tag'
                 };
 
-                Plotly.newPlot('instagram-followers', [trace], layout);
+                Plotly.newPlot('followers_per_day', [trace], layout);
             });
     </script>
 
