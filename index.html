@@ -11,7 +11,7 @@
     <div id="followers_per_day"></div>
 
     <script>
-        fetch('followers_per_day.csv')
+        fetch('instagram_followers.csv')
             .then(response => response.text())
             .then(data => {
                 const rows = data.split('\n').slice(1);
@@ -30,10 +30,10 @@
                 };
 
                 const layout = {
-                    title: 'Anzahl der Follower pro Tag'
+                    title: 'Anzahl der Follower'
                 };
 
-                Plotly.newPlot('followers_per_day', [trace], layout);
+                Plotly.newPlot('instagram_followers', [trace], layout);
             });
     </script>
 
