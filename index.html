@@ -8,7 +8,7 @@
 </head>
 <body>
     <h1>Instagram Dashboard Grüne OV Rothenburg</h1>
-    <div id="followers_per_day"></div>
+    <div id="instagram-followers"></div>
 
     <script>
         fetch('instagram_followers.csv')
@@ -33,7 +33,7 @@
                     title: 'Anzahl der Follower'
                 };
 
-                Plotly.newPlot('instagram_followers', [trace], layout);
+                Plotly.newPlot('instagram-followers', [trace], layout);
             });
     </script>
 
