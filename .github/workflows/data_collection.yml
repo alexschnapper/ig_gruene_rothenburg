@@ -34,11 +34,3 @@ jobs:
       run: |
         python collect_data.py
         python fetch_data.py
-
-#    - name: Commit and push results
-#      run: |
-#        git config --global user.name 'github-actions'
-#        git config --global user.email 'github-actions@github.com'
-#        git add instagram_data.csv posts_per_month.csv
-#        git commit -m 'Update Instagram data'
-#        git push
