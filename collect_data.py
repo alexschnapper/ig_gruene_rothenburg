@@ -9,7 +9,7 @@ load_dotenv()
 # Zugriff auf die Secrets
 access_token = os.getenv('ACCESS_TOKEN')
 user_id = os.getenv('USER_ID')
-url = os.getenv('API_URL')
+url = f"https://graph.instagram.com"
 
 # Daten von der Instagram API abrufen
 response = requests.get(f'{url}/{user_id}/media?fields=id,caption,media_type,media_url,permalink,thumbnail_url,timestamp,username,like_count,comments_count&access_token={access_token}')
