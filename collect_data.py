@@ -96,5 +96,5 @@ def fetch_instagram_other():
     
     
 if __name__ == "__main__":
-    fetch_instagram_data()
-    fetch_instagram_other()
+    fetch_instagram_data
+    fetch_instagram_other
