@@ -14,7 +14,7 @@ url2 = f"https://graph.facebook.com"
 
 def fetch_instagram_data():
     # Daten von der Instagram API abrufen
-    response = requests.get(f'{url}/{user_id}/media?fields=id,caption,media_type,media_url,permalink,thumbnail_url,timestamp,username,like_count,followers_count,comments_count&access_token={access_token}')
+    response = requests.get(f'{url}/{user_id}/media?fields=id,caption,media_type,media_url,permalink,thumbnail_url,timestamp,username,insights.metric(impressions,reach,engagement),like_count,followers_count,comments_count&access_token={access_token}')
     data = response.json()
 
     # Daten in eine CSV-Datei speichern
@@ -24,18 +24,24 @@ def fetch_instagram_data():
     # Daten analysieren für Posts pro Monat
     df['timestamp'] = pd.to_datetime(df['timestamp'])
     df['year_month'] = df['timestamp'].dt.to_period('M')
+    # Anzahl der Beiträge pro Monat
     posts_per_month = df.groupby('year_month').size()
+    
+    # Engagement, Impressions und Reach pro Monat
+    df['impressions'] = df ['insights'].apply(lambda x: x['impressions']['value'] if 'impressions' in x else 0)
+    df['reach'] = df['insights'].apply(lambda x: x['reach']['value'] if 'reach' in x else 0)
+    df['engagement'] = df['insights'].apply(lambda x: x['engagement']['value'] if 'engagement' in x else 0)
+
+    impressions_per_month = df.groupby('year_month')['impressions'].sum()
+    reach_per_month = df.groupby('year_month')['reach'].sum()
+    engagement_per_month = df.groupby('year_month')['engagement'].sum()
 
     # Ergebnisse speichern
     posts_per_month.to_csv('data/posts_per_month.csv')
-
-def fetch_instagram_insights_data():
-    # Daten von der Instagram API abrufen
-    response = requests.get(f'{url2}/{user_id}/insights?metric=engagement,impressions,reach')
-    data = response.json()
-    # Daten in eine CSV-Datei speichern
-    df = pd.DataFrame(data['data'])
-    df.to_csv('data/instagram_insights_data.csv', index=False)
+    impressions_per_month.to_csv('data/impressions_per_month.csv')
+    reach_per_month.to_csv('data/reach_per_month.csv')
+    engagement_per_month.to_csv('data/engagement_per_month.csv')
+    
 
 def fetch_instagram_other():
     # Abrufen der Medien-Daten
@@ -91,5 +97,4 @@ def fetch_instagram_other():
     
 if __name__ == "__main__":
     fetch_instagram_data()
-    fetch_instagram_insights_data()
     fetch_instagram_other()
