@@ -17,6 +17,13 @@ def fetch_instagram_data():
     response = requests.get(f'{url}/{user_id}/media?fields=id,caption,media_type,media_url,permalink,thumbnail_url,timestamp,username,insights.metric(impressions,reach,engagement),like_count,followers_count,comments_count&access_token={access_token}')
     data = response.json()
 
+    # Ausgabe der API-Antwort zur Überprüfung
+    print(data)
+
+    # Überprüfen, ob die API-Antwort den Schlüssel 'data' enthält
+    if 'data' not in data:
+        raise KeyError("Die API-Antwort enthält keinen 'data'-Schlüssel. Antwort: {}".format(data))
+
     # Daten in eine CSV-Datei speichern
     df = pd.DataFrame(data['data'])
     os.makedirs('data', exist_ok=True)  # Verzeichnis erstellen, falls es nicht existiert
