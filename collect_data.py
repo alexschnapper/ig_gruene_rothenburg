@@ -19,6 +19,7 @@ def fetch_instagram_data():
 
     # Daten in eine CSV-Datei speichern
     df = pd.DataFrame(data['data'])
+    os.makedirs('data', exist_ok=True)  # Verzeichnis erstellen, falls es nicht existiert
     df.to_csv('data/instagram_data.csv', index=False)
 
     # Daten analysieren für Posts pro Monat
@@ -62,11 +63,12 @@ def fetch_instagram_other():
     followers_df = pd.DataFrame([{'timestamp': pd.Timestamp.now(), 'followers_count': followers_count}])
 
     # Speichern der Daten
+    os.makedirs('data', exist_ok=True)  # Verzeichnis erstellen, falls es nicht existiert
     posts_df.to_csv('data/instagram_data.csv', index=False)
 
     # Follower-Daten anhängen, wenn die Datei bereits existiert
     if os.path.exists('data/instagram_followers.csv'):
-        existing_followers_df = pd.read_csv('instagram_followers.csv')
+        existing_followers_df = pd.read_csv('data/instagram_followers.csv')
         existing_followers_df['timestamp'] = pd.to_datetime(existing_followers_df['timestamp'])
         followers_df = pd.concat([existing_followers_df, followers_df], ignore_index=True)
 
