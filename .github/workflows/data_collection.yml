@@ -36,6 +36,6 @@ jobs:
 
     - name: Commit and push results
       run: |
-        git add data/instagram_data.csv data/posts_per_month.csv data/impressions_per_month.csv data/reach_per_month.csv data/engagement_per_month.csv
+        git add ./data/instagram_data.csv ./data/posts_per_month.csv ./data/impressions_per_month.csv ./data/reach_per_month.csv ./data/engagement_per_month.csv
         git commit -m 'Update Instagram data'
         git push
