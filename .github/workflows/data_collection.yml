@@ -23,8 +23,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install requests pandas
-        pip install python-dotenv
+        pip install requests pandas plotly dash python-dotenv
 
     - name: Run data collection script
       env:
@@ -36,10 +35,6 @@ jobs:
 
     - name: Commit and push results
       run: |
-        if [ -f data/instagram_data.csv ]; then git add data/instagram_data.csv; fi
-        if [ -f data/posts_per_month.csv ]; then git add data/posts_per_month.csv; fi
-        if [ -f data/impressions_per_month.csv ]; then git add data/impressions_per_month.csv; fi
-        if [ -f data/reach_per_month.csv ]; then git add data/reach_per_month.csv; fi
-        if [ -f data/engagement_per_month.csv ]; then git add data/engagement_per_month.csv; fi
-        git commit -m 'Update Instagram data' || echo "No changes to commit"
+        git add data/*.csv
+        git commit -m 'Update Instagram data and generate dashboard' || echo "No changes to commit"
         git push || echo "No changes to push"
