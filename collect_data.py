@@ -1,7 +1,6 @@
 import os
 import requests
 import pandas as pd
-
 from dotenv import load_dotenv
 
 # .env Datei laden
@@ -11,20 +10,21 @@ load_dotenv()
 access_token = os.getenv('ACCESS_TOKEN')
 user_id = os.getenv('USER_ID')
 url = os.getenv('API_URL')
+apiv = os.getenv('API_VERSION')
 
 # Daten von der Instagram API abrufen
-response = requests.get(f'{url}/{user_id}/media?fields=id,caption,media_type,media_url,thumbnail_url,timestamp,username,insights.metric(impressions,reach,engagement)&access_token={access_token}')
-data = response.json()
+response = requests.get(f'{url}/{apiv}/{user_id}?fields=id,followers_count,follows_count,media_count,website,timestamp,username&access_token={access_token}')
+json = response.json()
 
 # Ausgabe der API-Antwort zur Überprüfung
-print(data)
+print(json)
 
 # Überprüfen, ob die API-Antwort den Schlüssel 'data' enthält
-if 'data' not in data:
-    raise KeyError("Die API-Antwort enthält keinen 'data'-Schlüssel. Antwort: {}".format(data))
+#if 'data' not in data:
+#    raise KeyError("Die API-Antwort enthält keinen 'data'-Schlüssel. Antwort: {}".format(data))
 
 # Daten in eine CSV-Datei speichern
-df = pd.DataFrame(data['data'])
+df = pd.DataFrame(json['data'])
 os.makedirs('data', exist_ok=True)  # Verzeichnis erstellen, falls es nicht existiert
 df.to_csv('data/instagram_data.csv', index=False)
 
