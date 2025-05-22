@@ -9,8 +9,8 @@ load_dotenv()
 # Zugriff auf die Secrets
 access_token = os.getenv('ACCESS_TOKEN')
 user_id = os.getenv('USER_ID')
-url = f"https://graph.instagram.com"
-url2 = f"https://graph.facebook.com"
+url = os.getenv('API_URL')
+folder = "data"
 
 def fetch_instagram_data():
     # Daten von der Instagram API abrufen
@@ -26,8 +26,8 @@ def fetch_instagram_data():
 
     # Daten in eine CSV-Datei speichern
     df = pd.DataFrame(data['data'])
-    os.makedirs('data', exist_ok=True)  # Verzeichnis erstellen, falls es nicht existiert
-    df.to_csv('data/instagram_data.csv', index=False)
+    os.makedirs('folder', exist_ok=True)  # Verzeichnis erstellen, falls es nicht existiert
+    df.to_csv('folder/instagram_data.csv', index=False)
 
     # Daten analysieren für Posts pro Monat
     df['timestamp'] = pd.to_datetime(df['timestamp'])
@@ -45,9 +45,9 @@ def fetch_instagram_data():
     engagement_per_month = df.groupby('year_month')['engagement'].sum()
 
     # Ergebnisse speichern
-    posts_per_month.to_csv('data/posts_per_month.csv')
-    impressions_per_month.to_csv('data/impressions_per_month.csv')
-    reach_per_month.to_csv('data/reach_per_month.csv')
+    posts_per_month.to_csv('folder/posts_per_month.csv')
+    impressions_per_month.to_csv('folder/impressions_per_month.csv')
+    reach_per_month.to_csv('folder/reach_per_month.csv')
     engagement_per_month.to_csv('data/engagement_per_month.csv')
     
 
